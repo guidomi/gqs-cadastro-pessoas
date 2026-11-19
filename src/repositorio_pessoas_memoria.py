@@ -29,3 +29,10 @@ class RepositorioPessoasMemoria(RepositorioPessoas):
                 self.__pessoas[indice] = nova_pessoa
                 return True
         return False
+
+    def remover(self, nome):
+        for i, p in enumerate(self.__pessoas):
+            if p.getNome() == nome:
+                del self.__pessoas[i]
+                return True
+        return False

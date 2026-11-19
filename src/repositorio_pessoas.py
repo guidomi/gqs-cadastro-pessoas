@@ -22,3 +22,8 @@ class RepositorioPessoas(ABC):
     @abstractmethod
     def alterar(self, nome: str, nova_pessoa: Pessoa) -> bool:
         pass
+
+        @abstractmethod
+    def remover(self, nome):
+        """Remove uma pessoa pelo nome."""
+        pass

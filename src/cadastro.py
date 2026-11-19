@@ -24,3 +24,6 @@ class CadastroPessoas:
         if self.__repositorio.alterar(nome, nova_pessoa):
             return nova_pessoa
         return None
+
+    def remover(self, nome):
+        return self.__repositorio.remover(nome)

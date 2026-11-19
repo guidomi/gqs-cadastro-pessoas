@@ -58,3 +58,9 @@ class RepositorioPessoasMySQL(RepositorioPessoas):
         self.__cursor.execute(sql, valores)
         self.__conexao.commit()
         return self.__cursor.rowcount > 0
+
+    def remover(self, nome):
+        sql = "DELETE FROM pessoa WHERE nome = %s"
+        self.__cursor.execute(sql, (nome,))
+        self.__conexao.commit()
+        return self.__cursor.rowcount > 0
