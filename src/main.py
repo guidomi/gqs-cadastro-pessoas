@@ -3,9 +3,7 @@
 from cadastro import CadastroPessoas
 from repositorio_pessoas_mysql import RepositorioPessoasMySQL
 
-
 def exibir_menu():
-    """Exibe o menu principal."""
     print("=========================")
     print(" CADASTRO DE PESSOAS")
     print("=========================")
@@ -18,80 +16,67 @@ def exibir_menu():
     print("7 - Sair")
     return int(input("Escolha uma opcao: "))
 
-
 def cadastrar_pessoa(cadastro):
-    """Cadastra uma nova pessoa."""
     nome = input("Informe o nome: ")
     idade = int(input("Informe a idade: "))
     email = input("Informe o email: ")
-
-    cadastro.cadastrar(nome, idade, email)
-
+    telefone = input("Informe o telefone: ")
+    cadastro.cadastrar(nome, idade, email, telefone)
     if idade >= 18:
         print("Situacao: Maior de idade")
     else:
         print("Situacao: Menor de idade")
 
-
 def exibir_pessoa(pessoa):
-    """Exibe os dados de uma pessoa."""
     print("Nome: " + pessoa.getNome())
     print("Idade: " + str(pessoa.getIdade()))
     print("E-mail: " + pessoa.getEmail())
-
+    print("Telefone: " + pessoa.getTelefone())
     if pessoa.getIdade() >= 18:
         print("Situacao: Maior de idade")
     else:
         print("Situacao: Menor de idade")
 
-
 def consultar_pessoa(cadastro):
-    """Consulta uma pessoa pelo nome."""
     procurado = input("Nome para consultar: ")
     pessoa = cadastro.buscarPorNome(procurado)
-
     if pessoa is None:
         print("Nao encontrado")
     else:
         exibir_pessoa(pessoa)
 
-
 def alterar_pessoa(cadastro):
-    """Altera os dados de uma pessoa."""
     procurado = input("Nome para alterar: ")
     pessoa = cadastro.buscarPorNome(procurado)
-
     if pessoa is None:
         print("Nao encontrado")
     else:
         novo_nome = input("Novo nome: ")
         nova_idade = int(input("Nova idade: "))
         novo_email = input("Novo e-mail: ")
-
-        cadastro.alterar(
-            procurado,
-            novo_nome,
-            nova_idade,
-            novo_email
-        )
-
-        print("Pessoa alterada!")
-        exibir_pessoa(pessoa)
-
+        novo_telefone = input("Novo telefone: ")
+        pessoa_alterada = cadastro.alterar(procurado, novo_nome, nova_idade, novo_email, novo_telefone)
+        if pessoa_alterada:
+            print("Pessoa alterada!")
+            exibir_pessoa(pessoa_alterada)
+        else:
+            print("Erro ao alterar")
 
 def listar_pessoas(cadastro):
-    """Lista todas as pessoas cadastradas."""
     pessoas = cadastro.listar()
-
     if len(pessoas) == 0:
         print("Nenhuma pessoa cadastrada")
-
     for pessoa in pessoas:
         exibir_pessoa(pessoa)
         print("-------------------------")
-
     print("Total: " + str(len(pessoas)))
 
+def remover_pessoa(cadastro):
+    nome = input("Nome para remover: ")
+    if cadastro.remover(nome):
+        print("Pessoa removida com sucesso!")
+    else:
+        print("Pessoa nao encontrada.")
 
 def remover_pessoa(cadastro):
     """Remove uma pessoa pelo nome."""
@@ -103,60 +88,36 @@ def remover_pessoa(cadastro):
 
 
 def analisar_faixa_etaria(idade):
-    """Analisa a faixa etaria."""
-    if idade < 12:
-        print("Faixa etaria: crianca")
-    elif idade < 18:
-        print("Faixa etaria: adolescente")
-    elif idade < 60:
-        print("Faixa etaria: adulto")
-    else:
-        print("Faixa etaria: idoso")
-
+    if idade < 12: print("Faixa etaria: crianca")
+    elif idade < 18: print("Faixa etaria: adolescente")
+    elif idade < 60: print("Faixa etaria: adulto")
+    else: print("Faixa etaria: idoso")
 
 def analisar_contato(idade, email):
-    """Analisa as informacoes de contato."""
-    if idade >= 18 and "@" in email:
-        print("Contato: completo")
-    elif idade >= 18:
-        print("Contato: e-mail invalido")
-    else:
-        print("Contato: menor de idade")
-
+    if idade >= 18 and "@" in email: print("Contato: completo")
+    elif idade >= 18: print("Contato: e-mail invalido")
+    else: print("Contato: menor de idade")
 
 def analisar_email(email):
-    """Analisa o provedor de e-mail."""
-    if "@" not in email:
-        print("E-mail invalido")
-    elif email.endswith("@gmail.com"):
-        print("Provedor: Gmail")
-    elif email.endswith("@outlook.com"):
-        print("Provedor: Outlook")
-    else:
-        print("Provedor: outro")
-
+    if "@" not in email: print("E-mail invalido")
+    elif email.endswith("@gmail.com"): print("Provedor: Gmail")
+    elif email.endswith("@outlook.com"): print("Provedor: Outlook")
+    else: print("Provedor: outro")
 
 def analisar_pessoa(cadastro):
-    """Analisa os dados de uma pessoa."""
     procurado = input("Nome para analisar: ")
     pessoa = cadastro.buscarPorNome(procurado)
-
     if pessoa is None:
         print("Pessoa nao encontrada")
     else:
         analisar_faixa_etaria(pessoa.getIdade())
         analisar_email(pessoa.getEmail())
-        analisar_contato(
-            pessoa.getIdade(),
-            pessoa.getEmail()
-        )
-
+        analisar_contato(pessoa.getIdade(), pessoa.getEmail())
 
 def executar():
     """Executa o menu principal da aplicação."""
     repositorio = RepositorioPessoasMySQL()
     cadastro = CadastroPessoas(repositorio)
-    
     op = 0
 
     while op != 7:  # MUDOU AQUI (era 6, agora é 7)
@@ -179,8 +140,17 @@ def executar():
         else:
             print("Opcao invalida")
 
+    while op != 7:
+        op = exibir_menu()
+        if op == 1: cadastrar_pessoa(cadastro)
+        elif op == 2: consultar_pessoa(cadastro)
+        elif op == 3: alterar_pessoa(cadastro)
+        elif op == 4: listar_pessoas(cadastro)
+        elif op == 5: analisar_pessoa(cadastro)
+        elif op == 6: remover_pessoa(cadastro)
+        elif op == 7: print("Saindo...")
+        else: print("Opcao invalida")
     print("Fim do programa")
-
 
 if __name__ == "__main__":
     executar()

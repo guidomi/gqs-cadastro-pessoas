@@ -1,32 +1,27 @@
 """Implementação de pessoas em memoria"""
-from typing import List, Optional
-
-from pessoa import Pessoa
 from repositorio_pessoas import RepositorioPessoas
 
-
 class RepositorioPessoasMemoria(RepositorioPessoas):
-    """Metodos para implementação de pessoas em memoria"""
+    def __init__(self):
+        self.__pessoas = []
 
-    def __init__(self) -> None:
-        self.__pessoas: List[Pessoa] = []
-
-    def cadastrar(self, pessoa: Pessoa) -> None:
+    def cadastrar(self, pessoa):
         self.__pessoas.append(pessoa)
+        return True
 
-    def buscar(self, nome: str) -> Optional[Pessoa]:
-        for pessoa in self.__pessoas:
-            if pessoa.getNome() == nome:
-                return pessoa
+    def buscar(self, nome):
+        for p in self.__pessoas:
+            if p.getNome() == nome:
+                return p
         return None
 
-    def listar(self) -> List[Pessoa]:
+    def listar(self):
         return list(self.__pessoas)
 
-    def alterar(self, nome: str, nova_pessoa: Pessoa) -> bool:
-        for indice, pessoa in enumerate(self.__pessoas):
-            if pessoa.getNome() == nome:
-                self.__pessoas[indice] = nova_pessoa
+    def alterar(self, nome, nova_pessoa):
+        for i, p in enumerate(self.__pessoas):
+            if p.getNome() == nome:
+                self.__pessoas[i] = nova_pessoa
                 return True
         return False
 
@@ -35,4 +30,5 @@ class RepositorioPessoasMemoria(RepositorioPessoas):
             if p.getNome() == nome:
                 del self.__pessoas[i]
                 return True
+        return False
         return False

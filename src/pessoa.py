@@ -1,10 +1,9 @@
-"""Classe pessoa"""
 class Pessoa:
-    """definição da classe"""
-    def __init__(self, nome, idade, email):    
+    def __init__(self, nome, idade, email, telefone):
         self.__nome = nome
         self.__idade = idade
         self.__email = email
+        self.__telefone = telefone
 
     def getNome(self):
         return self.__nome
@@ -15,6 +14,9 @@ class Pessoa:
     def getEmail(self):
         return self.__email
 
+    def getTelefone(self):
+        return self.__telefone
+
     def setNome(self, nome):
         self.__nome = nome
 
@@ -23,3 +25,6 @@ class Pessoa:
 
     def setEmail(self, email):
         self.__email = email
+
+    def setTelefone(self, telefone):
+        self.__telefone = telefone

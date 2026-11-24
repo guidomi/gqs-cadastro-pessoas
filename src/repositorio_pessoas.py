@@ -1,29 +1,22 @@
 """Contrato para definição de responsabilidades"""
 from abc import ABC, abstractmethod
-from typing import List, Optional
-
 from pessoa import Pessoa
 
-
 class RepositorioPessoas(ABC):
-    """Definição de classe e metodos para manipulação de pessoas"""
     @abstractmethod
-    def cadastrar(self, pessoa: Pessoa) -> None:
-        pass
+    def cadastrar(self, pessoa): pass
 
     @abstractmethod
-    def buscar(self, nome: str) -> Optional[Pessoa]:
-        pass
+    def buscar(self, nome): pass
 
     @abstractmethod
-    def listar(self) -> List[Pessoa]:
-        pass
+    def listar(self): pass
 
     @abstractmethod
     def alterar(self, nome: str, nova_pessoa: Pessoa) -> bool:
         pass
 
-        @abstractmethod
+    @abstractmethod
     def remover(self, nome):
         """Remove uma pessoa pelo nome."""
-        pass
+        passs
